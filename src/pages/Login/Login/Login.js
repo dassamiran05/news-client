@@ -1,13 +1,18 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider';
 
 const Login = () => {
     const {signIn} = useContext(AuthContext);
+    const [error, setError] = useState('');
 
     const navigate = useNavigate();
+
+    const location = useLocation();
+
+    let from = location.state?.from?.pathname || "/";
 
     const handleSignIn = (event) =>{
         event.preventDefault();
@@ -21,9 +26,13 @@ const Login = () => {
             const user = res.user;
             console.log(user);
             form.reset();
-            navigate('/');
+            navigate(from, {replace: true});
+            setError('');
         })
-        .catch(error => console.error(error))
+        .catch(error => {
+            console.error(error)
+            setError(error.message);
+        })
     }
     return (
         <Form className='w-50 m-auto mt-5' onSubmit={handleSignIn}>
@@ -44,7 +53,7 @@ const Login = () => {
                 Login
             </Button>
             <Form.Text className="text-danger">
-                We'll never share your email with anyone else.
+                {error}
             </Form.Text>
             <p>New Customer <Link to='/register'>Sign Up</Link></p>
         </Form>
