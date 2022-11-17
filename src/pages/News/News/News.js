@@ -1,10 +1,12 @@
 import React from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { Link, useLoaderData } from 'react-router-dom';
+import useTitle from '../../../hooks/useTitle';
 
 const News = () => {
     const singleNews = useLoaderData();
     const { _id, title, author, total_view, details, image_url, rating, category_id } = singleNews;
+    useTitle('News Detail');
     return (
         <div>
             <Card>

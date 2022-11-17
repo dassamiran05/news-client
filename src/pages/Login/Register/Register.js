@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider';
 // import { toast } from 'react-toastify';
 import toast from 'react-hot-toast';
+import useTitle from '../../../hooks/useTitle';
 
 
 
@@ -13,6 +14,8 @@ const Register = () => {
     const [accepted, setAccepted] = useState(false);
     const { createUser, updateUserProfile , verifyEmail } = useContext(AuthContext);
     // console.log(error);
+
+    useTitle('Registration');
 
     const handleSubmit = event => {
         event.preventDefault();
